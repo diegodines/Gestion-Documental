@@ -1,0 +1,25 @@
+# Dependencias de Node (Backend y Frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Builds y empaquetados
+build/
+dist/
+coverage/
+
+# Variables de entorno y secretos (¡Nunca subir a GitHub!)
+.env
+.env.local
+.env.production
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Configuraciones de IDEs (VSCode, IntelliJ, etc)
+.vscode/
+.idea/
+
+# Imágenes Docker temporales o archivos de log locales
+*.log
