@@ -1,0 +1,42 @@
+
+services:
+  # 1. El Guardia Mágico (Traefik)
+  traefik:
+    image: traefik:v2.11
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - #"100.107.153.65:8025:80"  #puerto para provarlo en mi servidor propio
+      - "8025:80" # Puerto a usar en pacheco
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Le damos acceso a Docker
+
+  # 2. El Backend Node.js
+  backend:
+    build: ./backend
+    labels:
+      - "traefik.enable=true"
+      # Aquí el contenedor le dice a Traefik: "Mándame todo lo que empiece con /api"
+      - "traefik.http.routers.mibackend.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.mibackend.loadbalancer.server.port=3000"
+
+  # 3. El Servidor Jenkins
+  jenkins:
+    image: jenkins/jenkins:lts
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    user: root
+    labels:
+      - "traefik.enable=true"
+      # Aquí le dice: "Mándame todo lo que empiece con /jenkins"
+      - "traefik.http.routers.mijenkins.rule=PathPrefix(`/jenkins`)"
+      - "traefik.http.services.mijenkins.loadbalancer.server.port=8080"
+
+volumes:
+  jenkins_data:
