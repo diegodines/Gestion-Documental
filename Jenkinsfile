@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('1. Planificacion (Git)') {
             steps {
-
                 echo 'Descargando la última versión del código (Frontend y Backend) desde GitHub...'
             }
         }
@@ -25,16 +24,16 @@ pipeline {
             steps {
                 echo 'Desplegando contenedores y conectando con el Guardia Mágico (Traefik)...'
                 
-                // 1. Limpiamos las versiones anteriores (si existen) para no tener choques de nombres
+            
                 sh 'docker rm -f testing-backend-1 || true'
                 sh 'docker rm -f testing-frontend-1 || true'
                 
-                // 2. Levantamos el nuevo Backend
+                // 2. Levantamos el nuevo Backend 
                 sh '''
                 docker run -d --name testing-backend-1 \
                   --network testingpipeline_default \
                   -l "traefik.enable=true" \
-                  -l "traefik.http.routers.mibackend.rule=PathPrefix(`/api`)" \
+                  -l 'traefik.http.routers.mibackend.rule=PathPrefix(`/api`)' \
                   -l "traefik.http.services.mibackend.loadbalancer.server.port=3000" \
                   app-backend-gps
                 '''
@@ -44,7 +43,7 @@ pipeline {
                 docker run -d --name testing-frontend-1 \
                   --network testingpipeline_default \
                   -l "traefik.enable=true" \
-                  -l "traefik.http.routers.mifrontend.rule=PathPrefix(`/`)" \
+                  -l 'traefik.http.routers.mifrontend.rule=PathPrefix(`/`)' \
                   -l "traefik.http.services.mifrontend.loadbalancer.server.port=80" \
                   app-frontend-gps
                 '''
