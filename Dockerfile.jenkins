@@ -1,0 +1,11 @@
+# Usamos la imagen oficial de Jenkins como base
+FROM jenkins/jenkins:lts
+
+# Entramos como súper administrador
+USER root
+
+# Instalamos el cliente nativo de Docker dentro de Jenkins
+RUN apt-get update && apt-get install -y docker.io
+
+# Mantenemos el usuario root para poder usar el socket de Docker sin problemas de permisos
+USER root
