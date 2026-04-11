@@ -23,7 +23,7 @@ app.get('/api/requerimiento', (req, res) => {
     res.json({
         id: "REQ-001",
         area: "Electricidad",
-        contratista: "Benjamín Jiménez",
+        contratista: "Diego Pérez",
         estado: "En Revisión",
         coordenadas: { lat: -36.8201, lng: -73.0444 }
     });
