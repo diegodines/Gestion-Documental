@@ -7,8 +7,6 @@ function App() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // ⚠️ EL CAMBIO CLAVE ESTÁ AQUÍ ⚠️
-    // Al usar '/api/status', le decimos a Traefik: "Oye, mándale esto al backend"
     axios.get('/api/status')
       .then((response) => {
         setMensaje(response.data.mensaje || "Sistema de Gestión Operativo (Conectado con éxito)")
