@@ -1,0 +1,30 @@
+
+FROM node:20-alpine as build
+
+# Establecemos el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiamos los archivos de dependencias primero 
+COPY package*.json ./
+
+# Instalamos las dependencias
+RUN npm install
+
+# Copiamos todo el código fuente del frontend
+COPY . .
+
+# Compilamos la aplicación de React (Vite genera la carpeta 'dist')
+RUN npm run build
+
+# ETAPA 2: Servidor Web (Producción)
+# Usamos Nginx para servir los archivos estáticos generados
+FROM nginx:alpine
+
+# Copiamos los archivos compilados de la Etapa 1 a la carpeta pública de Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Exponemos el puerto 80, que es el estándar de Nginx
+EXPOSE 80
+
+# Comando para iniciar Nginx y mantenerlo corriendo en primer plano
+CMD ["nginx", "-g", "daemon off;"]

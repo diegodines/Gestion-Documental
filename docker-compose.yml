@@ -14,6 +14,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Le damos acceso a Docker
 
+  frontend:
+    build: ./frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mifrontend.rule=PathPrefix(`/`)"
+      - "traefik.http.services.mifrontend.loadbalancer.server.port=80"
+    depends_on:
+      - backend
+
   # 2. El Backend Node.js
   backend:
     build: ./backend
@@ -24,20 +33,21 @@ services:
       - "traefik.http.services.mibackend.loadbalancer.server.port=3000"
 
   # 3. El Servidor Jenkinsservices:
+# 4. El Servidor Jenkins
   jenkins:
-    image: jenkins/jenkins:lts
-    user: root # A veces necesario para tener permisos sobre el socket
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    user: root
     ports:
-      - "8080:8080"
+      - "8081:8080"
+      - "50000:50000"
     volumes:
       - jenkins_data:/var/jenkins_home
-      # Estas dos líneas son la clave:
+      # Mantenemos el socket para que Jenkins y tu PC compartan los contenedores
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-  
     labels:
       - "traefik.enable=true"
-      # Aquí le dice: "Mándame todo lo que empiece con /jenkins"
       - "traefik.http.routers.mijenkins.rule=PathPrefix(`/jenkins`)"
       - "traefik.http.services.mijenkins.loadbalancer.server.port=8080"
 

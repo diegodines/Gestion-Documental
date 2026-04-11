@@ -32,3 +32,4 @@ app.get('/api/requerimiento', (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Backend de prueba corriendo en el puerto ${PORT}`);
 });
+
