@@ -24,7 +24,7 @@ pipeline {
                 // AQUÍ ESTÁ EL CAMBIO: --network testingpeliline_default
                 sh '''
                 docker run -d --name testing-backend-1 \
-                  --network testingpeliline_default \
+                  --network testingpipeline_default \
                   -l "traefik.enable=true" \
                   -l 'traefik.http.routers.mibackend.rule=PathPrefix(`/api`)' \
                   -l "traefik.http.services.mibackend.loadbalancer.server.port=3000" \

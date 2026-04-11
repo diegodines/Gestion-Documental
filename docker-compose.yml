@@ -9,8 +9,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
     ports:
-      - #"100.107.153.65:8025:80"  #puerto para provarlo en mi servidor propio
-      - "8025:80" # Puerto a usar en pacheco
+     
+      - "8080:80" # Puerto a usar en pacheco
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Le damos acceso a Docker
 
@@ -23,15 +23,18 @@ services:
       - "traefik.http.routers.mibackend.rule=PathPrefix(`/api`)"
       - "traefik.http.services.mibackend.loadbalancer.server.port=3000"
 
-  # 3. El Servidor Jenkins
+  # 3. El Servidor Jenkinsservices:
   jenkins:
     image: jenkins/jenkins:lts
-    environment:
-      - JENKINS_OPTS="--prefix=/jenkins"
+    user: root # A veces necesario para tener permisos sobre el socket
+    ports:
+      - "8080:8080"
     volumes:
       - jenkins_data:/var/jenkins_home
+      # Estas dos líneas son la clave:
       - /var/run/docker.sock:/var/run/docker.sock
-    user: root
+      - /usr/bin/docker:/usr/bin/docker
+  
     labels:
       - "traefik.enable=true"
       # Aquí le dice: "Mándame todo lo que empiece con /jenkins"
