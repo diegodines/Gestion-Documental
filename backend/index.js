@@ -9,7 +9,7 @@ app.use(express.json());
 // Ruta: GET /api/status
 app.get('/api/status', (req, res) => {
     res.json({
-        mensaje: "¡Hola Mundo! El pipeline de Jenkins está funcionando perfecto.",
+        mensaje: "¡Hola Mundo! El pipeline de Jenkins está funcionando a la perfección.",
         version: "1.2.0",
         estado: "Operativo",
         timestamp: new Date()

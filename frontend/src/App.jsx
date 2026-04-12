@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Panel de Control - Grupo 8</h1>
+      <h1>Panel de Control - Gestion Documental</h1>
 
       <div className="status-card">
         <h2>Estado de la Conexión:</h2>
