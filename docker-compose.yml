@@ -41,7 +41,6 @@ services:
     user: root
     ports:
       - "8054:8080" 
-      - "50000:50000"
     volumes:
       - jenkins_data:/var/jenkins_home
       # Mantenemos el socket para que Jenkins y tu PC compartan los contenedores
