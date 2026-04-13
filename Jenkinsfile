@@ -31,7 +31,7 @@ pipeline {
                 // 2. Levantamos el nuevo Backend 
                 sh '''
                 docker run -d --name testing-backend-1 \
-                  --network testingpipeline_default \
+                  --network gestion-documental_default \
                   -l "traefik.enable=true" \
                   -l 'traefik.http.routers.mibackend.rule=PathPrefix(`/api`)' \
                   -l "traefik.http.services.mibackend.loadbalancer.server.port=3000" \
@@ -41,7 +41,7 @@ pipeline {
                 // 3. Levantamos el nuevo Frontend
                 sh '''
                 docker run -d --name testing-frontend-1 \
-                  --network testingpipeline_default \
+                  --network gestion-documental_default \
                   -l "traefik.enable=true" \
                   -l 'traefik.http.routers.mifrontend.rule=PathPrefix(`/`)' \
                   -l "traefik.http.services.mifrontend.loadbalancer.server.port=80" \
