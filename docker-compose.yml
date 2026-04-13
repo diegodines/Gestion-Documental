@@ -10,7 +10,7 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
      
-      - "8080:80" # Puerto a usar en pacheco
+      - "8053:80" # Puerto a usar en pacheco
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Le damos acceso a Docker
 
@@ -40,7 +40,7 @@ services:
       dockerfile: Dockerfile.jenkins
     user: root
     ports:
-      - "8081:8080"
+      - "8054:8080" 
       - "50000:50000"
     volumes:
       - jenkins_data:/var/jenkins_home

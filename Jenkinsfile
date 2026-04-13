@@ -33,7 +33,7 @@ pipeline {
                 docker run -d --name testing-backend-1 \
                   --network gestion-documental_default \
                   -l "traefik.enable=true" \
-                  -l 'traefik.http.routers.mibackend.rule=PathPrefix(`/api`)' \
+                  -l "traefik.http.routers.mibackend.rule=Host(\`pacheco.chillan.ubiobio.cl\`) && PathPrefix(\`/api\`)" \
                   -l "traefik.http.services.mibackend.loadbalancer.server.port=3000" \
                   app-backend-gps
                 '''
@@ -43,7 +43,7 @@ pipeline {
                 docker run -d --name testing-frontend-1 \
                   --network gestion-documental_default \
                   -l "traefik.enable=true" \
-                  -l 'traefik.http.routers.mifrontend.rule=PathPrefix(`/`)' \
+                  -l "traefik.http.routers.mifrontend.rule=Host(\`pacheco.chillan.ubiobio.cl\`) && PathPrefix(\`/\`)" \
                   -l "traefik.http.services.mifrontend.loadbalancer.server.port=80" \
                   app-frontend-gps
                 '''
