@@ -23,6 +23,8 @@ function App() {
 
       <div className="status-card">
         <h2>Estado de la Conexión:</h2>
+        
+        
         {error ? (
           <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>
         ) : (
